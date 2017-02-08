@@ -48,47 +48,49 @@ void SJF()
     cout<<"Pid , Arrival , CPU Time , Waiting Time , Finish Time , TAT\n";
     link *cu=first;
     int cpy=nop;
+    int cpy2=nop;
     int cont=0;
     int minu=1000;
     int st[10];
-    for(int i=0;i<10;i++)
-        st[i]=0;
-    int cutime=0;
-    while(cu!='\0')
+     int cutime=0;
+    for(int kl=0;kl<cpy2;kl++)
     {
-        if(cu->arrival<=cutime)
+        for(int i=0;i<10;i++)
+        st[i]=0;
+        while(cu!='\0')
         {
+         if(cu->arrival<=cutime)
+         {
             st[cont]=cu->arrival;
             cont++;
+         }
+           cu=cu->n;
         }
-        cu=cu->n;
-    }
-    cu=first;
-    cpy=0;
-    link *b,*a;
-    while(cu!='\0'&&cpy<=cont)
-    {
-        if(cu->arrival==st[cpy])
+        cu=first;
+        cpy=0;
+        link *b,*a;
+        while(cu!='\0'&&cpy<=cont)
         {
-            if(cu->cputime<minu)
-                {
-                    minu=cu->cputime;
-                    b=cu;
-                }
+            if(cu->arrival==st[cpy])
+            {
+                if(cu->cputime<minu)
+                    {
+                        minu=cu->cputime;
+                        b=cu;
+                    }
             cpy++;
+            }
+            cu=cu->n;
         }
-        cu=cu->n;
-    }
-    cu=first;
-    link *x=first;
+        cu=first;
+        link *x=first;
         while  (x->n!=b)
         x=x->n;
         x->n=b->n;
-        if(cu->cputime==minu)
-        {
-          cout<<cu->Pid<<" "<<cu->arrival<<" "<<cu->cputime<<" "<<cu->waitingtime<<" "<<cu->finishtime<<" "<<cu->TAT<<"\n";
-          delete cu;
-        }
+        cout<<b->Pid<<" "<<b->arrival<<" "<<b->cputime<<" "<<b->waitingtime<<" "<<b->finishtime<<" "<<b->TAT<<"\n";
+        cutime+=minu;
+        delete b;
+    }
 }
 void Display()
 {
